@@ -27,11 +27,18 @@ builder.Services.AddProblemDetails(options =>
     };
 });
 
+builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.RegisterServices();
 
 var app = builder.Build();
 
+// 🛠 Ensure DB is created or updated
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.EnsureCreated();
+}
 
 app.UseExceptionHandler();
 app.UseStatusCodePages();
