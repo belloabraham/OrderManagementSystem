@@ -1,12 +1,12 @@
-using OrderManagementSystem.Domain.Entities;
+namespace OrderManagementSystem.Domain.Responses;
 
-namespace OrderManagementSystem.Domain.Request;
-
-public class OrderCreateRequest
+public class OrderResponse
 {
+    public Guid OrderId { get; set; }
+
+    public string OrderNumber { get; set; } = string.Empty;
     public Guid CustomerId { get; set; }
-    
-    public string CustomerSegment { get; set; } = string.Empty;
+    public int StatusId { get; set; }
 
     public DateTime OrderDate { get; set; }
     public DateTime LastModifiedDate { get; set; }
@@ -25,6 +25,4 @@ public class OrderCreateRequest
     public int? FulfillmentTime { get; set; }
 
     public string? Note { get; set; }
-
-    public ICollection<OrderItemRequest> OrderItems { get; set; } = new List<OrderItemRequest>();
 }

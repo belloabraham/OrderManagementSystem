@@ -1,4 +1,4 @@
-namespace OrderManagementSystem.Domain.Request;
+namespace OrderManagementSystem.Domain.Requests;
 
 public class OrderItemRequest
 {

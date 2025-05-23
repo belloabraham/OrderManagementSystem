@@ -1,4 +1,4 @@
-namespace OrderManagementSystem.Domain.Response;
+namespace OrderManagementSystem.Domain.Responses;
 
 public class OrderItemResponse
 {

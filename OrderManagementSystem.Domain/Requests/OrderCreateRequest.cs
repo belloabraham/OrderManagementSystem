@@ -1,12 +1,10 @@
-namespace OrderManagementSystem.Domain.Response;
+namespace OrderManagementSystem.Domain.Requests;
 
-public class OrderResponse
+public class OrderCreateRequest
 {
-    public Guid OrderId { get; set; }
-
-    public string OrderNumber { get; set; } = string.Empty;
     public Guid CustomerId { get; set; }
-    public int StatusId { get; set; }
+    
+    public string CustomerSegment { get; set; } = string.Empty;
 
     public DateTime OrderDate { get; set; }
     public DateTime LastModifiedDate { get; set; }
@@ -25,4 +23,6 @@ public class OrderResponse
     public int? FulfillmentTime { get; set; }
 
     public string? Note { get; set; }
+
+    public ICollection<OrderItemRequest> OrderItems { get; set; } = new List<OrderItemRequest>();
 }
