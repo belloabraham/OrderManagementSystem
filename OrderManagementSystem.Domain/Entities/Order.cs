@@ -5,10 +5,12 @@ namespace OrderManagementSystem.Domain.Entities;
 
 public class Order
 {
-    [Key]
-    public Guid OrderId { get; set; }
+    [Key] public Guid OrderId { get; set; }
     public string OrderNumber { get; set; } = string.Empty;
 
+    /*This ensures that multiple updates to the same order record do not overwrite each other unintentionally.
+    The value is automatically generated and updated by the database on each write operation.*/
+    [Timestamp] public byte[] RowVersion { get; set; }
     public Guid CustomerId { get; set; }
     public int StatusId { get; set; }
 
@@ -33,8 +35,7 @@ public class Order
     public string? Note { get; set; }
 
     // Navigation Properties
-    [ForeignKey("StatusId")]
-    public OrderStatus? Status { get; set; }
+    [ForeignKey("StatusId")] public OrderStatus? Status { get; set; }
 
     public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }

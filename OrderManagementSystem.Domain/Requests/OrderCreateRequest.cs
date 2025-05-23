@@ -4,7 +4,7 @@ public class OrderCreateRequest
 {
     public Guid CustomerId { get; set; }
     
-    public string CustomerSegment { get; set; } = string.Empty;
+    public string? CustomerSegment { get; set; } = string.Empty;
     
     public decimal Subtotal { get; set; }
     public Guid? AppliedPromotionId { get; set; }
