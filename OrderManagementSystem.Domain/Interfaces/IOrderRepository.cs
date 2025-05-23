@@ -9,5 +9,6 @@ public interface IOrderRepository
     Task<Order?> GetByIdAsync(Guid id);
     Task<List<Order>>  GetByCustomerIdAsync(Guid customerId);
     Task<Order> AddAsync(Order order);
+    Task<int> UpdateAsync(Order order);
     Task<int> UpdateOrderStatusAsync(Guid orderId, StatusId statusId);
 }

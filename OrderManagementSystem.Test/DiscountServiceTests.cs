@@ -24,7 +24,7 @@ public class DiscountServiceTests
         var order = new Order { OrderId = orderId, CustomerId = customerId, TotalAmount = 1000m };
 
         _orderRepoMock.Setup(r => r.GetByIdAsync(orderId)).ReturnsAsync(order);
-        _orderRepoMock.Setup(r => r.GetByCustomerIdAsync(customerId)).ReturnsAsync(new List<Order> { order });
+        _orderRepoMock.Setup(r => r.GetByCustomerIdAsync(customerId)).ReturnsAsync(new List<Order> { });
 
         var service = new DiscountService(_orderRepoMock.Object);
         var request = new DiscountRequest
@@ -35,7 +35,7 @@ public class DiscountServiceTests
         };
 
         // Act
-        await service.SetDiscount(request);
+        await service.SetDiscount(request, vipMinimumSpendThreshold: 10000m, standardDiscountRate: 0.10m);
 
         // Assert
         Assert.Equal(100m, order.DiscountAmount); // 10% of 1000
@@ -66,7 +66,7 @@ public class DiscountServiceTests
         };
 
         // Act
-        await service.SetDiscount(request);
+        await service.SetDiscount(request, vipMinimumSpendThreshold: 10000m, standardDiscountRate: 0.10m);
 
         // Assert
         Assert.Equal(200m, order.DiscountAmount); // 10% of 2000

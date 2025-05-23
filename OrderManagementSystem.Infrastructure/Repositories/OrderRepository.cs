@@ -59,10 +59,16 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
         await context.SaveChangesAsync();
         return order;
     }
+    
+    public async Task<int> UpdateAsync(Order order)
+    {
+        context.Orders.Update(order);
+      return   await context.SaveChangesAsync();
+    }
 
     public async Task<int> UpdateOrderStatusAsync(Guid orderId, StatusId statusId)
     {
-        var order = await context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+        var order = await GetByIdAsync(orderId);
         if (order == null)
             throw new ProblemException(errorMessage: $"Order does not exist for {orderId}", title: "Not Found",
                 statusCode: (int)HttpStatusCode.NotFound);
@@ -80,7 +86,6 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
         var updatedDate = DateTime.UtcNow;
         order.LastModifiedDate = updatedDate;
         order.StatusChangeDate = updatedDate;
-        context.Orders.Update(order);
-        return await context.SaveChangesAsync();
+        return await UpdateAsync(order);
     }
 }

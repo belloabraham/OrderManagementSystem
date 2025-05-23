@@ -1,4 +1,5 @@
 using System.Threading.Channels;
+using OrderManagementSystem.Domain.Constant;
 using OrderManagementSystem.Domain.Interfaces;
 using OrderManagementSystem.Domain.Requests;
 
@@ -19,7 +20,7 @@ public class DiscountBackgroundService(
                 var discountRequest = await discountChannel.Reader.ReadAsync(stoppingToken);
                 using var scope = scopeFactory.CreateScope();
                 var discountService = scope.ServiceProvider.GetRequiredService<IDiscountService>();
-                await discountService.SetDiscount(discountRequest);
+                await discountService.SetDiscount(discountRequest, DiscountThreshold.MinimumSpendForDiscount, DiscountThreshold.DiscountRate);
             }
             catch (Exception e)
             {
