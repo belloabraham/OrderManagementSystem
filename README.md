@@ -27,6 +27,20 @@ OrderManagementSystem.sln
 - ✅ Multiple environment configs: `appsettings.Prod.json`, `appsettings.Local.json`, `appsettings.Dev.json`
 - ✅ Benchmarking using **BenchmarkDotNet**
 
+## 💡 Assumptions Made
+
+This Order Management System is designed as an independent microservice within a larger ecosystem (e.g., customer, inventory, promotion services). It is intended to be **loosely coupled** and modular.
+
+- The order service does **not directly depend** on external systems like customer management.
+- Instead, it accepts a `CustomerSegment` value (e.g., `"New"`, `"Existing"`) in API requests, allowing the **calling service** to provide segment context.
+- If the segment is unknown or not applicable, the caller can pass `null`, and the system will fall back to **internal order history** to determine discount eligibility.
+
+This approach promotes:
+
+- ✅ Clear service boundaries
+- ✅ Reusability in different service-oriented architectures
+- ✅ Better maintainability and scalability
+
 ## 🛠️ Technologies Used
 
 - **.NET 8 Web API**
