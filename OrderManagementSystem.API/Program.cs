@@ -1,7 +1,8 @@
-using Microsoft.AspNetCore.Diagnostics;
+using System.Threading.Channels;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.EntityFrameworkCore;
 using OrderManagementSystem.API;
+using OrderManagementSystem.Application.AutoMapper;
+using OrderManagementSystem.Domain.Request;
 using OrderManagementSystem.Infrastructure;
 using OrderManagementSystem.Infrastructure.Settings;
 
@@ -27,13 +28,21 @@ builder.Services.AddProblemDetails(options =>
     };
 });
 
+builder.Services.AddSingleton<Channel<DiscountRequest>>(_ => Channel.CreateUnbounded<DiscountRequest>(
+    new UnboundedChannelOptions()
+    {
+        SingleReader = true,
+        AllowSynchronousContinuations = false
+    }
+));
+
 builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.RegisterServices();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
 
-// 🛠 Ensure DB is created or updated
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();

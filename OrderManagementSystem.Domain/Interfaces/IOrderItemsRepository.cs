@@ -4,8 +4,8 @@ namespace OrderManagementSystem.Domain.Interfaces;
 
 public interface IOrderItemsRepository
 {
-    Task<List<OrderItems>> GetAllAsync();
-    Task<OrderItems?> GetByIdAsync(Guid id);
-    Task<List<OrderItems>> GetByOrderIdAsync(Guid orderId);
-    Task<OrderItems?> GetByProductIdAsync(Guid productId);
+    Task<List<OrderItem>> GetAllAsync();
+    Task<OrderItem?> GetByIdAsync(Guid id);
+    Task<List<OrderItem>> GetByOrderIdAsync(Guid orderId);
+    Task<List<OrderItem>> GetByProductIdAsync(Guid productId);
 }

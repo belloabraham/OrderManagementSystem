@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using OrderManagementSystem.Application.Services;
 using OrderManagementSystem.Domain.Interfaces;
 using OrderManagementSystem.Infrastructure;
 using OrderManagementSystem.Infrastructure.Repositories;
@@ -14,10 +15,14 @@ public static class ServiceRegistration
     {
         //TODO
 
-        services.AddScoped<IOrderRepository, OrdersRepository>();
-        services.AddScoped<IOrderItemsRepository, OrderItemsRepository>();
-
-
+        services.AddHostedService<DiscountBackgroundService>();
+        services.AddScoped<IDiscountService, DiscountService>();
+        services.AddScoped<IOrderItemsService, OrderItemService>();
+        services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IAnalyticService, AnalyticService>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IOrderItemsRepository, OrderItemRepository>();
+        
         // Register DB context
         services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
