@@ -3,13 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OrderManagementSystem.Domain.Entities;
 
-//TODO
 public class Order
 {
     [Key]
     public Guid OrderId { get; set; }
     public string OrderNumber { get; set; } = string.Empty;
-    
+
     public Guid CustomerId { get; set; }
     public int StatusId { get; set; }
 

@@ -31,7 +31,6 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
         }
 
         var query = context.Orders.Include(o => o.Status).AsQueryable();
-        var totalCount = await query.CountAsync();
         var orders = await query
             .OrderByDescending(o => o.OrderDate)
             .Skip((pageNumber!.Value - 1) * pageSize.Value)

@@ -5,6 +5,10 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <!-- Enable XML documentation generation for Swagger and IntelliSense -->
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <!-- Suppress warning CS1591: Missing XML comment for publicly visible types or members -->
+        <NoWarn>$(NoWarn);1591</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

@@ -4,7 +4,6 @@ using OrderManagementSystem.Domain.Exceptions;
 
 namespace OrderManagementSystem.API;
 
-//TODO
 public class GlobalExceptionHandler(
     IProblemDetailsService problemDetailsService,
     ILogger<GlobalExceptionHandler> logger)
@@ -14,7 +13,7 @@ public class GlobalExceptionHandler(
     {
         var isServerError = exception is not ProblemException;
         var problemException = exception as ProblemException;
-        
+
         var problemDetails = new ProblemDetails
         {
             Status = isServerError ? StatusCodes.Status500InternalServerError : problemException?.StatusCode,
@@ -24,11 +23,9 @@ public class GlobalExceptionHandler(
 
         if (isServerError)
         {
-            //TODO
             logger.LogError(exception, exception.Message);
-            
         }
-        
+
         return await problemDetailsService.TryWriteAsync(
             new ProblemDetailsContext
         {

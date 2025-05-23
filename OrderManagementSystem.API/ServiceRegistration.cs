@@ -12,11 +12,8 @@ namespace OrderManagementSystem.API;
 
 public static class ServiceRegistration
 {
-    //TODO
     public static void RegisterServices(this IServiceCollection services)
     {
-        //TODO
-        
         services.AddValidatorsFromAssemblyContaining<OrderCreateRequestValidator>();
         services.AddHostedService<DiscountBackgroundService>();
         services.AddScoped<IDiscountService, DiscountService>();
