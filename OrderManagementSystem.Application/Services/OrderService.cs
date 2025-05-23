@@ -2,9 +2,10 @@ using System.Threading.Channels;
 using AutoMapper;
 using OrderManagementSystem.Application.Extensions;
 using OrderManagementSystem.Domain.Entities;
+using OrderManagementSystem.Domain.Enums;
 using OrderManagementSystem.Domain.Interfaces;
-using OrderManagementSystem.Domain.Request;
-using OrderManagementSystem.Domain.Response;
+using OrderManagementSystem.Domain.Requests;
+using OrderManagementSystem.Domain.Responses;
 
 namespace OrderManagementSystem.Application.Services;
 
@@ -40,7 +41,7 @@ public class OrderService(IOrderRepository orderRepository, IMapper mapper, Chan
         return order != null ? mapper.Map<OrderResponse>(order) : null;
     }
     
-    public async Task<int> UpdateOrderStatusAsync(Guid orderId, int statusId)
+    public async Task<int> UpdateOrderStatusAsync(Guid orderId, StatusId statusId)
     {
         return await orderRepository.UpdateOrderStatusAsync(orderId, statusId);
     }

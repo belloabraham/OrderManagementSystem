@@ -1,6 +1,6 @@
 using System.Threading.Channels;
 using OrderManagementSystem.Domain.Interfaces;
-using OrderManagementSystem.Domain.Request;
+using OrderManagementSystem.Domain.Requests;
 
 namespace OrderManagementSystem.API;
 

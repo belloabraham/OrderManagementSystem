@@ -2,7 +2,7 @@ using System.Threading.Channels;
 using Microsoft.AspNetCore.Http.Features;
 using OrderManagementSystem.API;
 using OrderManagementSystem.Application.AutoMapper;
-using OrderManagementSystem.Domain.Request;
+using OrderManagementSystem.Domain.Requests;
 using OrderManagementSystem.Infrastructure;
 using OrderManagementSystem.Infrastructure.Settings;
 

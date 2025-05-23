@@ -1,6 +1,6 @@
 using AutoMapper;
 using OrderManagementSystem.Domain.Interfaces;
-using OrderManagementSystem.Domain.Response;
+using OrderManagementSystem.Domain.Responses;
 
 namespace OrderManagementSystem.Application.Services;
 

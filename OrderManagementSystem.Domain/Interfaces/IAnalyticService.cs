@@ -1,4 +1,4 @@
-using OrderManagementSystem.Domain.Response;
+using OrderManagementSystem.Domain.Responses;
 
 namespace OrderManagementSystem.Domain.Interfaces;
 

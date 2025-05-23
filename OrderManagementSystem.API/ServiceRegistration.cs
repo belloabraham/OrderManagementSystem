@@ -1,6 +1,8 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using OrderManagementSystem.Application.Services;
+using OrderManagementSystem.Application.Validators;
 using OrderManagementSystem.Domain.Interfaces;
 using OrderManagementSystem.Infrastructure;
 using OrderManagementSystem.Infrastructure.Repositories;
@@ -14,7 +16,8 @@ public static class ServiceRegistration
     public static void RegisterServices(this IServiceCollection services)
     {
         //TODO
-
+        
+        services.AddValidatorsFromAssemblyContaining<OrderCreateRequestValidator>();
         services.AddHostedService<DiscountBackgroundService>();
         services.AddScoped<IDiscountService, DiscountService>();
         services.AddScoped<IOrderItemsService, OrderItemService>();

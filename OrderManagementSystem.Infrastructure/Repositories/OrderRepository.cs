@@ -1,6 +1,7 @@
 using System.Net;
 using Microsoft.EntityFrameworkCore;
 using OrderManagementSystem.Domain.Entities;
+using OrderManagementSystem.Domain.Enums;
 using OrderManagementSystem.Domain.Exceptions;
 using OrderManagementSystem.Domain.Interfaces;
 
@@ -14,15 +15,21 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
             .Include(o => o.Status)
             .ToListAsync();
     }
-    
+
     public async Task<List<Order>> GetOrderAsync(int? pageNumber, int? pageSize)
     {
-
         if (pageNumber == null || pageSize == null)
         {
             return await GetAllAsync();
         }
-    
+
+        if (pageNumber <= 0 || pageSize <= 0)
+        {
+            throw new ProblemException(
+                errorMessage: $"{nameof(pageNumber)} and {nameof(pageNumber)} must be greater that or equals 1",
+                title: "Bad Request", statusCode: (int)HttpStatusCode.BadRequest);
+        }
+
         var query = context.Orders.Include(o => o.Status).AsQueryable();
         var totalCount = await query.CountAsync();
         var orders = await query
@@ -54,17 +61,26 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
         return order;
     }
 
-    public async Task<int> UpdateOrderStatusAsync(Guid orderId, int statusId)
+    public async Task<int> UpdateOrderStatusAsync(Guid orderId, StatusId statusId)
     {
         var order = await context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
         if (order == null)
-            throw new ProblemException(errorMessage: $"Order does not exist for {orderId}", title: "Not Found", statusCode: (int)HttpStatusCode.NotFound);
+            throw new ProblemException(errorMessage: $"Order does not exist for {orderId}", title: "Not Found",
+                statusCode: (int)HttpStatusCode.NotFound);
 
-        var statusStepIsGreaterThanOne = (statusId - order.StatusId) > 1;
-        if (statusStepIsGreaterThanOne)
-            throw new ProblemException(errorMessage: $"Order status update must follow the order of Pending -> Processing -> Cancelled -> Shipped -> Delivered -> Returned", title: "Bad Request", statusCode: (int)HttpStatusCode.BadRequest);
+        var statusStepIsGreaterThanOne = ((int)statusId - (int)order.StatusId) > 1;
+        var isNotAValidStatusId = !Enum.IsDefined(typeof(OrderStatus), statusId);
 
-        order.StatusId = statusId;
+        if (statusStepIsGreaterThanOne || isNotAValidStatusId)
+            throw new ProblemException(
+                errorMessage:
+                $"Order status update must follow the order of  {string.Join("-> ", Enum.GetNames(typeof(StatusId)))}",
+                title: "Bad Request", statusCode: (int)HttpStatusCode.BadRequest);
+
+        order.StatusId = (int)statusId;
+        var updatedDate = DateTime.UtcNow;
+        order.LastModifiedDate = updatedDate;
+        order.StatusChangeDate = updatedDate;
         context.Orders.Update(order);
         return await context.SaveChangesAsync();
     }

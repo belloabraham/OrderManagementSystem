@@ -1,6 +1,6 @@
 using OrderManagementSystem.Domain.Constant;
 using OrderManagementSystem.Domain.Interfaces;
-using OrderManagementSystem.Domain.Request;
+using OrderManagementSystem.Domain.Requests;
 
 namespace OrderManagementSystem.Application.Services;
 
@@ -15,6 +15,8 @@ public class DiscountService(IOrderRepository orderRepository) : IDiscountServic
         if (isNewCustomer || isVipCustomer)
         {
             var order = await orderRepository.GetByIdAsync(request.OrderId);
+            var updatedDate = DateTime.UtcNow;
+            order!.LastModifiedDate = updatedDate;
             order!.DiscountAmount = order.TotalAmount * 0.1m;
         }
     }

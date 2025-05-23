@@ -5,16 +5,10 @@ public class OrderCreateRequest
     public Guid CustomerId { get; set; }
     
     public string CustomerSegment { get; set; } = string.Empty;
-
-    public DateTime OrderDate { get; set; }
-    public DateTime LastModifiedDate { get; set; }
-    public DateTime? StatusChangeDate { get; set; }
-
+    
     public decimal Subtotal { get; set; }
-    public decimal DiscountAmount { get; set; } = 0.00m;
     public Guid? AppliedPromotionId { get; set; }
     public decimal TotalAmount { get; set; }
-
     public Guid? ShippingAddressId { get; set; }
     public Guid? BillingAddressId { get; set; }
     public DateTime? EstimatedDeliveryDate { get; set; }

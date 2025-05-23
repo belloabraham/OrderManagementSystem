@@ -1,5 +1,6 @@
 using OrderManagementSystem.Domain.Entities;
-using OrderManagementSystem.Domain.Request;
+using OrderManagementSystem.Domain.Enums;
+using OrderManagementSystem.Domain.Requests;
 
 namespace OrderManagementSystem.Application.Extensions;
 
@@ -8,7 +9,8 @@ public static class OrdersRequestExtension
     public static Order ToOrders(this OrderCreateRequest createRequest)
     {
         var orderId = Guid.NewGuid();
-        var year = createRequest.OrderDate.Year;
+        var createdDate = DateTime.UtcNow;
+        var year = createdDate.Year;
         var random = new Random().Next(0, 10000); 
         var orderNumber = $"ORD-{year}{random:D4}";
         
@@ -17,12 +19,12 @@ public static class OrdersRequestExtension
             OrderId = orderId,
             OrderNumber = orderNumber,
             CustomerId = createRequest.CustomerId,
-            StatusId = 0,
-            OrderDate = createRequest.OrderDate,
-            LastModifiedDate = createRequest.LastModifiedDate,
-            StatusChangeDate = createRequest.StatusChangeDate,
+            StatusId = (int)StatusId.Pending,
+            OrderDate = createdDate,
+            LastModifiedDate = createdDate,
+            StatusChangeDate = createdDate,
             Subtotal = createRequest.Subtotal,
-            DiscountAmount = createRequest.DiscountAmount,
+            DiscountAmount = 0,
             AppliedPromotionId = createRequest.AppliedPromotionId,
             TotalAmount = createRequest.TotalAmount,
             ShippingAddressId = createRequest.ShippingAddressId,

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OrderManagementSystem.Domain.Interfaces;
-using OrderManagementSystem.Domain.Response;
+using OrderManagementSystem.Domain.Responses;
 
 namespace OrderManagementSystem.API.Controllers
 {
