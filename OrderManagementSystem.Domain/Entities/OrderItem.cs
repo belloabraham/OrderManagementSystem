@@ -13,9 +13,6 @@ public class OrderItem
 
     public int Quantity { get; set; }
     public decimal UnitPrice { get; set; }
-
-    // Navigation
-    [ForeignKey("OrderId")]
-    public Order? Order { get; set; }
+    
 }
 

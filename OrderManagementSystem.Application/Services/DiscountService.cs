@@ -21,7 +21,7 @@ public class DiscountService(IOrderRepository orderRepository) : IDiscountServic
     public async Task SetDiscount(DiscountRequest request, decimal vipMinimumSpendThreshold,
         decimal standardDiscountRate)
     {
-        var isNewCustomer = request.CustomerSegment.Equals(CustomerSegment.New, StringComparison.OrdinalIgnoreCase);
+        var isNewCustomer = request.CustomerSegment != null && request.CustomerSegment.Equals(CustomerSegment.New, StringComparison.OrdinalIgnoreCase);
         var orders = await orderRepository.GetByCustomerIdAsync(request.CustomerId);
         var isVipCustomer = orders.Sum(order => order.TotalAmount) > vipMinimumSpendThreshold;
 

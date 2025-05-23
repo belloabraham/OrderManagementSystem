@@ -32,7 +32,7 @@ public static class OrdersRequestExtension
             EstimatedDeliveryDate = createRequest.EstimatedDeliveryDate,
             ActualDeliveryDate = createRequest.ActualDeliveryDate,
             ShippedDate = createRequest.ShippedDate,
-            FulfillmentTime = createRequest.FulfillmentTime,
+            FulfillmentTime = 0,
             Note = createRequest.Note,
             OrderItems = createRequest.OrderItems.Select(item => new OrderItem
             {

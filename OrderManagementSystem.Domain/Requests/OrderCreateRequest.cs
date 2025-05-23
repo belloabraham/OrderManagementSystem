@@ -3,7 +3,6 @@ namespace OrderManagementSystem.Domain.Requests;
 public class OrderCreateRequest
 {
     public Guid CustomerId { get; set; }
-    
     public string? CustomerSegment { get; set; } = string.Empty;
     
     public decimal Subtotal { get; set; }
@@ -14,8 +13,6 @@ public class OrderCreateRequest
     public DateTime? EstimatedDeliveryDate { get; set; }
     public DateTime? ActualDeliveryDate { get; set; }
     public DateTime? ShippedDate { get; set; }
-    public int? FulfillmentTime { get; set; }
-
     public string? Note { get; set; }
 
     public ICollection<OrderItemRequest> OrderItems { get; set; } = new List<OrderItemRequest>();

@@ -82,10 +82,22 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
                 $"Order status update must follow the order of  {string.Join("-> ", Enum.GetNames(typeof(StatusId)))}",
                 title: "Bad Request", statusCode: (int)HttpStatusCode.BadRequest);
 
+        
         order.StatusId = (int)statusId;
         var updatedDate = DateTime.UtcNow;
         order.LastModifiedDate = updatedDate;
         order.StatusChangeDate = updatedDate;
+        switch (statusId)
+        {
+            case StatusId.Shipped:
+                order.ShippedDate = updatedDate;
+                break;
+            case StatusId.Delivered:
+                order.ActualDeliveryDate = updatedDate;
+                order.FulfillmentTime = (int)(updatedDate - order.OrderDate).TotalMinutes;
+                break;
+        }
+
         return await UpdateAsync(order);
     }
 }
