@@ -6,7 +6,7 @@ namespace OrderManagementSystem.API;
 
 public class DiscountBackgroundService(
     Channel<DiscountRequest> discountChannel,
-    IDiscountService discountService,
+    IServiceScopeFactory scopeFactory,
     ILogger<DiscountBackgroundService> logger)
     : BackgroundService
 {
@@ -17,6 +17,8 @@ public class DiscountBackgroundService(
             try
             {
                 var discountRequest = await discountChannel.Reader.ReadAsync(stoppingToken);
+                using var scope = scopeFactory.CreateScope();
+                var discountService = scope.ServiceProvider.GetRequiredService<IDiscountService>();
                 await discountService.SetDiscount(discountRequest);
             }
             catch (Exception e)
