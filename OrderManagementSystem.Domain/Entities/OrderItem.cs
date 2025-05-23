@@ -3,10 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OrderManagementSystem.Domain.Entities;
 
-public class OrderItems
+public class OrderItem
 {
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid OrderItemId { get; set; }
 
     public Guid OrderId { get; set; }
@@ -17,6 +16,6 @@ public class OrderItems
 
     // Navigation
     [ForeignKey("OrderId")]
-    public Orders? Order { get; set; }
+    public Order? Order { get; set; }
 }
 

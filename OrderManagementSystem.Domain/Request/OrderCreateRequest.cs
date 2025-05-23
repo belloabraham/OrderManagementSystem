@@ -2,9 +2,11 @@ using OrderManagementSystem.Domain.Entities;
 
 namespace OrderManagementSystem.Domain.Request;
 
-public class OrdersRequest
+public class OrderCreateRequest
 {
     public Guid CustomerId { get; set; }
+    
+    public string CustomerSegment { get; set; } = string.Empty;
 
     public DateTime OrderDate { get; set; }
     public DateTime LastModifiedDate { get; set; }
@@ -24,5 +26,5 @@ public class OrdersRequest
 
     public string? Note { get; set; }
 
-    public ICollection<OrderItemsRequest> OrderItems { get; set; } = new List<OrderItemsRequest>();
+    public ICollection<OrderItemRequest> OrderItems { get; set; } = new List<OrderItemRequest>();
 }

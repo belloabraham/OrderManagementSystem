@@ -1,13 +1,7 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+namespace OrderManagementSystem.Domain.Response;
 
-namespace OrderManagementSystem.Domain.Entities;
-
-//TODO
-public class Orders
+public class OrderResponse
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid OrderId { get; set; }
 
     public string OrderNumber { get; set; } = string.Empty;
@@ -18,13 +12,11 @@ public class Orders
     public DateTime LastModifiedDate { get; set; }
     public DateTime? StatusChangeDate { get; set; }
 
-    // Pricing & Discounts
     public decimal Subtotal { get; set; }
     public decimal DiscountAmount { get; set; } = 0.00m;
     public Guid? AppliedPromotionId { get; set; }
     public decimal TotalAmount { get; set; }
 
-    // Shipping
     public Guid? ShippingAddressId { get; set; }
     public Guid? BillingAddressId { get; set; }
     public DateTime? EstimatedDeliveryDate { get; set; }
@@ -33,13 +25,4 @@ public class Orders
     public int? FulfillmentTime { get; set; }
 
     public string? Note { get; set; }
-
-    // Navigation Properties
-    [ForeignKey("StatusId")]
-    public OrderStatuses? Status { get; set; }
-
-    [ForeignKey("CustomerId")]
-    public Customers? Customer { get; set; }
-
-    public ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
 }

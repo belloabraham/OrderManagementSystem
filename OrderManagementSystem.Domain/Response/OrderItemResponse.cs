@@ -1,6 +1,6 @@
 namespace OrderManagementSystem.Domain.Response;
 
-public class OrderItemsResponse
+public class OrderItemResponse
 {
     public Guid OrderItemId { get; set; }
 

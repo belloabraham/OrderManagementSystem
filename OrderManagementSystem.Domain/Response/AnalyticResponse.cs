@@ -1,6 +1,6 @@
 namespace OrderManagementSystem.Domain.Response;
 
-public class AnalyticsResponse
+public class AnalyticResponse
 {
     public Guid CustomerId { get; set; }
     public string Status { get; set; } =  string.Empty;
