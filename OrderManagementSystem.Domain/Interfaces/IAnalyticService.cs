@@ -4,5 +4,5 @@ namespace OrderManagementSystem.Domain.Interfaces;
 
 public interface IAnalyticService
 {
-    Task<List<AnalyticResponse>>  GetAllAsync();
+    Task<List<AnalyticResponse>>  GetAnalyticsAsync(int? pageNumber, int? pageSize);
 }

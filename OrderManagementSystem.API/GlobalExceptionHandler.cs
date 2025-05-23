@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using OrderManagementSystem.Domain.Exceptions;
@@ -6,18 +5,11 @@ using OrderManagementSystem.Domain.Exceptions;
 namespace OrderManagementSystem.API;
 
 //TODO
-public class GlobalExceptionHandler:IExceptionHandler
+public class GlobalExceptionHandler(
+    IProblemDetailsService problemDetailsService,
+    ILogger<GlobalExceptionHandler> logger)
+    : IExceptionHandler
 {
-    private readonly IProblemDetailsService _problemDetailsService;
-    private readonly ILogger<GlobalExceptionHandler> _logger;
-
-
-    public GlobalExceptionHandler(IProblemDetailsService problemDetailsService, ILogger<GlobalExceptionHandler> logger)
-    {
-        _problemDetailsService = problemDetailsService;
-        _logger = logger;
-    }
-    
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         var isServerError = exception is not ProblemException;
@@ -33,11 +25,11 @@ public class GlobalExceptionHandler:IExceptionHandler
         if (isServerError)
         {
             //TODO
-            _logger.LogError(exception, exception.Message);
+            logger.LogError(exception, exception.Message);
             
         }
         
-        return await _problemDetailsService.TryWriteAsync(
+        return await problemDetailsService.TryWriteAsync(
             new ProblemDetailsContext
         {
             HttpContext = httpContext,

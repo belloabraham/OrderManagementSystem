@@ -4,7 +4,7 @@ namespace OrderManagementSystem.Domain.Interfaces;
 
 public interface IOrderRepository
 {
-    Task<List<Order>> GetAllAsync();
+    Task<List<Order>> GetOrderAsync(int? pageNumber, int? pageSize);
     Task<Order?> GetByIdAsync(Guid id);
     Task<List<Order>>  GetByCustomerIdAsync(Guid customerId);
     Task<Order> AddAsync(Order order);

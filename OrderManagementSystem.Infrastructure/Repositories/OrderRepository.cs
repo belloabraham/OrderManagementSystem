@@ -8,11 +8,30 @@ namespace OrderManagementSystem.Infrastructure.Repositories;
 
 public class OrderRepository(ApplicationDbContext context) : IOrderRepository
 {
-    public async Task<List<Order>> GetAllAsync()
+    private async Task<List<Order>> GetAllAsync()
     {
         return await context.Orders
             .Include(o => o.Status)
             .ToListAsync();
+    }
+    
+    public async Task<List<Order>> GetOrderAsync(int? pageNumber, int? pageSize)
+    {
+
+        if (pageNumber == null || pageSize == null)
+        {
+            return await GetAllAsync();
+        }
+    
+        var query = context.Orders.Include(o => o.Status).AsQueryable();
+        var totalCount = await query.CountAsync();
+        var orders = await query
+            .OrderByDescending(o => o.OrderDate)
+            .Skip((pageNumber!.Value - 1) * pageSize.Value)
+            .Take(pageSize.Value)
+            .ToListAsync();
+
+        return orders;
     }
 
     public async Task<Order?> GetByIdAsync(Guid id)
@@ -39,7 +58,7 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
     {
         var order = await context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
         if (order == null)
-            throw new ProblemException(errorMessage: $"Order does not exist for {order}", title: "Not Found", statusCode: (int)HttpStatusCode.NotFound);
+            throw new ProblemException(errorMessage: $"Order does not exist for {orderId}", title: "Not Found", statusCode: (int)HttpStatusCode.NotFound);
 
         var statusStepIsGreaterThanOne = (statusId - order.StatusId) > 1;
         if (statusStepIsGreaterThanOne)

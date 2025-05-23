@@ -11,9 +11,9 @@ namespace OrderManagementSystem.Application.Services;
 public class OrderService(IOrderRepository orderRepository, IMapper mapper, Channel<DiscountRequest> discountChannel)
     : IOrderService
 {
-    public async Task<List<OrderResponse>> GetAllAsync()
+    public async Task<List<OrderResponse>> GetOrdersAsync(int? pageNumber, int? pageSize)
     {
-        var orders = await orderRepository.GetAllAsync();
+        var orders = await orderRepository.GetOrderAsync(pageNumber, pageSize);
         return mapper.Map<List<OrderResponse>>(orders);
     }
 
@@ -40,9 +40,9 @@ public class OrderService(IOrderRepository orderRepository, IMapper mapper, Chan
         return order != null ? mapper.Map<OrderResponse>(order) : null;
     }
     
-
     public async Task<int> UpdateOrderStatusAsync(Guid orderId, int statusId)
     {
         return await orderRepository.UpdateOrderStatusAsync(orderId, statusId);
     }
+    
 }
