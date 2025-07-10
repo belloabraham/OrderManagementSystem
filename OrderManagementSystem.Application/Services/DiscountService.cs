@@ -21,14 +21,14 @@ public class DiscountService(IOrderRepository orderRepository) : IDiscountServic
     public async Task SetDiscount(DiscountRequest request, decimal vipMinimumSpendThreshold,
         decimal standardDiscountRate)
     {
-        var isNewCustomer = request.CustomerSegment != null && request.CustomerSegment.Equals(CustomerSegment.New, StringComparison.OrdinalIgnoreCase);
+        var isNewCustomer = request.CustomerSegment is not null && request.CustomerSegment.Equals(CustomerSegment.New, StringComparison.OrdinalIgnoreCase);
         var orders = await orderRepository.GetByCustomerIdAsync(request.CustomerId);
         var isVipCustomer = orders.Sum(order => order.TotalAmount) > vipMinimumSpendThreshold;
 
         if (isNewCustomer || isVipCustomer)
         {
             var order = await orderRepository.GetByIdAsync(request.OrderId);
-            if (order == null) throw new InvalidOperationException("Order not found.");
+            if (order is null) throw new InvalidOperationException("Order not found.");
 
             order.DiscountAmount = order.CalculateDiscount(standardDiscountRate);
             await orderRepository.UpdateAsync(order);

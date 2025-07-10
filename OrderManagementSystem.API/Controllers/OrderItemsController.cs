@@ -38,7 +38,7 @@ namespace OrderManagementSystem.API.Controllers
         public async Task<ActionResult<OrderItemResponse>> GetById(Guid id)
         {
             var result = await orderItemService.GetByIdAsync(id);
-            return result == null ? NotFound() : Ok(result);
+            return result is null ? NotFound() : Ok(result);
         }
     }
 }

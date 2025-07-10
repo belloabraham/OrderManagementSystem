@@ -1,4 +1,3 @@
-using OrderManagementSystem.Domain.Entities;
 using OrderManagementSystem.Domain.Enums;
 
 namespace OrderManagementSystem.Domain.Requests;

@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Net;
 using Microsoft.EntityFrameworkCore;
 using OrderManagementSystem.Domain.Entities;
@@ -18,7 +19,7 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
 
     public async Task<List<Order>> GetOrderAsync(int? pageNumber, int? pageSize)
     {
-        if (pageNumber == null || pageSize == null)
+        if (pageNumber is null || pageSize is null)
         {
             return await GetAllAsync();
         }
@@ -59,17 +60,17 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
         await context.SaveChangesAsync();
         return order;
     }
-    
+
     public async Task<int> UpdateAsync(Order order)
     {
         context.Orders.Update(order);
-      return   await context.SaveChangesAsync();
+      return await context.SaveChangesAsync();
     }
 
     public async Task<int> UpdateOrderStatusAsync(Guid orderId, StatusId statusId)
     {
         var order = await GetByIdAsync(orderId);
-        if (order == null)
+        if (order is null)
             throw new ProblemException(errorMessage: $"Order does not exist for {orderId}", title: "Not Found",
                 statusCode: (int)HttpStatusCode.NotFound);
 
@@ -82,7 +83,6 @@ public class OrderRepository(ApplicationDbContext context) : IOrderRepository
                 $"Order status update must follow the order of  {string.Join("-> ", Enum.GetNames(typeof(StatusId)))}",
                 title: "Bad Request", statusCode: (int)HttpStatusCode.BadRequest);
 
-        
         order.StatusId = (int)statusId;
         var updatedDate = DateTime.UtcNow;
         order.LastModifiedDate = updatedDate;

@@ -9,7 +9,7 @@ public static class OrderExtensions
 {
     public static decimal CalculateDiscount(this Order order, decimal rate)
     {
-        if (order == null) throw new ArgumentNullException(nameof(order));
+        if (order is null) throw new ArgumentNullException(nameof(order));
         return order.TotalAmount * rate;
     }
 }
